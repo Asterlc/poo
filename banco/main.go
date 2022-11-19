@@ -3,26 +3,40 @@ package main
 import (
 	"fmt"
 	"poo/banco/contas"
+	"poo/banco/contas/shared"
+	"poo/banco/entidades"
 )
 
 func main() {
-	conta := contas.ContaCorrente{
-		Titular: "Lucas",
-		Agencia: 11,
-		Conta:   1132,
-		Saldo:   5368.65,
+	contaCC := new(contas.ContaCorrente)
+	contaPP := new(contas.ContaPoupanca)
+	cliente := entidades.Cliente{
+		Name:       "Lucas",
+		Document:   "1597538565",
+		Profession: "Programador",
+		Phone:      119955887766,
 	}
 
-	conta2 := contas.ContaCorrente{
-		Titular: "Iris",
-		Agencia: 11,
-		Conta:   1562,
-		Saldo:   3600,
+	cliente2 := entidades.Cliente{
+		Name:       "Bruna",
+		Document:   "1597538565",
+		Profession: "Programador",
+		Phone:      119955887766,
 	}
 
-	sucess, error := conta.Transfere(555.75, &conta2)
-	fmt.Println(sucess, error)
-	fmt.Println(conta2.Saldo)
-	fmt.Println(conta.Saldo)
+	contaCC.SetTitular(cliente)
+	contaCC.SetAgencia(11)
+	contaCC.SetConta(11369)
+	contaCC.Deposita(3500)
+	shared.PagarBoleto(contaCC, 50)
 
+	fmt.Println(contaCC.GetSaldo())
+
+	contaPP.SetTitular(cliente2)
+	contaPP.SetAgencia(11)
+	contaPP.SetConta(11369)
+	contaPP.Deposita(3500)
+	shared.PagarBoleto(contaPP, 500)
+
+	fmt.Println(contaPP.GetSaldo())
 }
